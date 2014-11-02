@@ -1,0 +1,68 @@
+/*
+ * Base structure
+ */
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+    padding-top: 50px;
+}
+
+
+/*
+ * Global add-ons
+ */
+
+.sub-header {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/*
+ * Top navigation
+ * Hide default border to remove 1px line.
+ */
+.navbar-fixed-top {
+
+}
+
+/*
+ * Sidebar
+ */
+
+/* Sidebar navigation */
+.nav-sidebar {
+    margin-top: 60px;
+    margin-right: -21px; /* 20px padding + 1px border */
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+.nav-sidebar > li > a {
+    padding-right: 20px;
+    padding-left: 20px;
+
+}
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+    color: #fff;
+    background-color: #428bca;
+
+}
+
+a:hover{
+    cursor:pointer;
+}
+
+/*
+ * Main content
+ */
+
+.main {
+    padding: 70px;
+}
+
+.main .page-header {
+    margin-top: 0;
+}
+
+
