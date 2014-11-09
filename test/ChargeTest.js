@@ -15,6 +15,30 @@ var mysqlUtil = require('../src/util/MysqlUtil');
 //    //callback(data);
 //});
 
-mysqlUtil.queryByJoinSql(function(data){
+//mysqlUtil.queryByJoinSql(function(data){
+//    //callback(data);
+//});
+
+//var columnNames = new Array("u_id","charge_cate","amount","type","date");
+//var filterColumnNames = new Array("id");
+//var columnData = [1,3,10,1,'2014-11-09'];
+//var conditionData = [11];
+//var tableName = "t_charge";
+//mysqlUtil.updateByCondition(columnNames,filterColumnNames,tableName,columnData,conditionData,function(data){
+//    callback(data);
+//});
+
+
+var filterColumnNames = new Array("id");
+var conditionData = [11];
+var tableName = "t_charge";
+mysqlUtil.deleteByCondition(filterColumnNames,tableName,conditionData,function(data){
     //callback(data);
 });
+
+//var conditionData = [9,10];
+//var filterColumnNames = new Array("id");
+//var tableName = "t_charge";
+//mysqlUtil.deleteBatchByCondition(filterColumnNames,tableName,conditionData,function(data){
+//    //callback(data);
+//});

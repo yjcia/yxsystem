@@ -30,6 +30,8 @@ app.post('/getUserInForm', routes.getUserInForm);
 
 app.post('/addCharge',admin.addCharge);
 app.post('/updateCharge',admin.updateCharge);
+app.post('/deleteCharge',admin.deleteCharge);
+app.post('/batchDeleteCharge',admin.batchDeleteCharge);
 app.post('/getAllChargeInfo',admin.getAllCharges);
 
 

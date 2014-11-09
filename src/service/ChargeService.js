@@ -35,6 +35,22 @@ exports.updateCharge = function(columnData,conditionData,callback){
     });
 }
 
+exports.deleteCharge = function(conditionData,callback){
+    var filterColumnNames = new Array("id");
+    var tableName = "t_charge";
+    mysqlUtil.deleteByCondition(filterColumnNames,tableName,conditionData,function(data){
+        callback(data);
+    });
+}
+
+exports.batchDeleteCharge = function(conditionData,callback){
+    var filterColumnNames = new Array("id");
+    var tableName = "t_charge";
+    mysqlUtil.deleteBatchByCondition(filterColumnNames,tableName,conditionData,function(data){
+        callback(data);
+    });
+}
+
 exports.queryAllCharges = function(callback){
     mysqlUtil.queryByJoinSql(function(data){
         callback(data);

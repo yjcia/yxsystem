@@ -61,7 +61,7 @@ exports.queryByJoinSql = function(callback){
     var querySql = " select a.id as id , a.u_id, a.charge_cate , b.username as username," +
         "c.name as chargedesc,a.amount,a.date,a.type " +
         "from t_charge a inner join t_user b on a.u_id = b.id " +
-        "inner join t_charge_cate c on a.charge_cate = c.id;";
+        "inner join t_charge_cate c on a.charge_cate = c.id and a.is_void = 0;";
     var options = {sql: querySql,nestTables: false};
     connection.query(options, function (err, results) {
         if(err){
@@ -79,12 +79,72 @@ exports.updateByCondition = function(columnNamesArr,filterColumnNames,tablename,
     var updateSql = "update " + tablename + " set " +  splitUpdateColumn(columnNamesArr) +
         " where " + splitFilterColumn(filterColumnNames);
     var updateData = updateData.concat(conditionData);
-    console.log(updateSql);
+    //console.log(updateSql);
     connection.beginTransaction(function (err) {
         if (err) {
             throw err;
         }
         connection.query(updateSql, updateData, function (err, result) {
+            if (err) {
+                console.error(err);
+                connection.rollback();
+            }
+            else {
+                connection.commit(function (err) {
+                    if (err) {
+                        connection.rollback(function () {
+                            console.error(err);
+                        })
+                    }else{
+                        callback(1);
+                    }
+                });
+
+            }
+
+        });
+    })
+}
+
+exports.deleteByCondition = function(filterColumnNames,tablename,conditionData,callback) {
+    var deleteSql = "update " + tablename + " set is_void = 1 " +
+        " where " + splitEqualsFilterColumn(filterColumnNames);
+    console.log(deleteSql);
+    connection.beginTransaction(function (err) {
+        if (err) {
+            throw err;
+        }
+        connection.query(deleteSql, conditionData, function (err, result) {
+            if (err) {
+                console.error(err);
+                connection.rollback();
+            }
+            else {
+                connection.commit(function (err) {
+                    if (err) {
+                        connection.rollback(function () {
+                            console.error(err);
+                        })
+                    }else{
+                        callback(1);
+                    }
+                });
+
+            }
+
+        });
+    })
+}
+
+exports.deleteBatchByCondition = function(filterColumnNames,tablename,conditionData,callback) {
+    var deleteSql = "update " + tablename  + " set is_void = 1"+
+        " where " + splitInFilterColumn(filterColumnNames,conditionData);
+    console.log(deleteSql);
+    connection.beginTransaction(function (err) {
+        if (err) {
+            throw err;
+        }
+        connection.query(deleteSql, conditionData, function (err, result) {
             if (err) {
                 console.error(err);
                 connection.rollback();
@@ -130,7 +190,7 @@ function splitUpdateColumn(updateColumnNamesArr){
     return paraStr.substr(0,paraStr.length-1);
 }
 
-function splitFilterColumn(filterColumnNamesArr){
+function splitEqualsFilterColumn(filterColumnNamesArr){
     var paraStr = "";
     for(var index in filterColumnNamesArr){
         paraStr += (filterColumnNamesArr[index] +" = ? and ");
@@ -138,3 +198,13 @@ function splitFilterColumn(filterColumnNamesArr){
     return paraStr.substr(0,paraStr.length-(paraStr.lastIndexOf("and")-2));
 }
 
+
+function splitInFilterColumn(filterColumnNamesArr,conditionData){
+    var sqlInStr = filterColumnNamesArr + " in (";
+    var parmStr = "";
+    for(var index in conditionData){
+        parmStr += "?,";
+    }
+    parmStr = parmStr.substr(0,parmStr.length-1) + ")";
+    return (sqlInStr + parmStr);
+}

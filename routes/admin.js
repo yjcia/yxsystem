@@ -17,6 +17,20 @@ exports.updateCharge = function(req, res){
     });
 };
 
+exports.deleteCharge = function(req, res){
+    //res.render('admin');
+    chargeService.deleteCharge(req.body['conditionData[]'],function(data){
+        res.json(data);
+    });
+};
+
+exports.batchDeleteCharge = function(req, res){
+    //res.render('admin');
+    chargeService.batchDeleteCharge(req.body['conditionData[]'],function(data){
+        res.json(data);
+    });
+};
+
 exports.getAllCharges = function(req,res){
     chargeService.queryAllCharges(function(chargesInfo){
         res.json(chargesInfo);
