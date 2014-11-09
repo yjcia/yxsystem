@@ -43,7 +43,59 @@ function addCharge(){
         }
     });
 }
+function deleteCharge(obj){
+    obj.remove();
+    $.ajax({
+        url:"/deleteCharge",
+        type:"post",
+        dataType: "json",
+        async: true,
+        data:{
+            conditionData:[
+                obj.find("#r_id").text()
+            ]
+        },
+        success:function(data){
+            //console.log("data -->" + data);
+            if("1" == data){
+                //console.log("add success");
 
+            }
+
+        }
+    });
+}
+
+function batchDelete(){
+    var selectIds = new Array();
+    $("#adminDataTable tr").each(function(index){
+        if(index != 0 && $(this).find("#r_select").find("#selectCharge")[0].checked){
+            var id = $(this).find("#r_id").text();
+            selectIds.push(id);
+            $(this).remove();
+        }
+
+    });
+    console.log(selectIds);
+    $.ajax({
+        url:"/batchDeleteCharge",
+        type:"post",
+        dataType: "json",
+        async: true,
+        data:{
+            conditionData:selectIds
+        },
+        success:function(data){
+            //console.log("data -->" + data);
+            if("1" == data){
+                //console.log("add success");
+
+            }
+
+        }
+    });
+
+}
 function updateCharge(){
     $.ajax({
         url:"/updateCharge",

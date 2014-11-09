@@ -162,9 +162,9 @@ function initAdminData(){
                 "</tr>"
             var detailData = "";
             for(var i=0;i<data.length;i++){
-
-                detailData += ("<tr>" +
-                "<td><input type='checkbox'/></td>" +
+                var trStyle = data[i].type == 1 ? " class='danger'" :" class='success'";
+                detailData += ("<tr" + trStyle + ">" +
+                "<td id='r_select'><input type='checkbox' id='selectCharge'/></td>" +
                 "<td id='r_id'>"+data[i].id+"</td>" +
                 "<td style='display:none;' id='r_uid'>"+data[i].u_id+"</td>" +
                 "<td id='r_username'>"+data[i].username+"</td>" +
@@ -176,7 +176,8 @@ function initAdminData(){
                 "<td id='r_date'>"+data[i].date+"</td>" +
                 "<td><button type='button' class='btn btn-info' id='etdButton' onclick='editCharge($(this).parent().parent())'>" +
                 "Edit</button></td>"+
-                "<td><button type='button' class='btn btn-danger'>Remove</button></td>"
+                "<td><button type='button' class='btn btn-danger' onclick='deleteCharge($(this).parent().parent())'>" +
+                "Remove</button></td>"
                 +"</tr>");
             }
             //console.log(liData);
