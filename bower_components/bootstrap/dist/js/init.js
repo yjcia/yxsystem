@@ -123,8 +123,8 @@ function initChargeTypeInForm(){
                 optionData += ("<option value="+data[i].id+"><a >"+data[i].name+"</a></option>");
             }
             //console.log(optionData);
-            $('#chargeTypeInForm').append(optionData);
-
+            $('#chargeDescInForm').append(optionData);
+            $('#editChargeDescInForm').append(optionData);
         }
     })
 }
@@ -140,8 +140,8 @@ function initUserInForm(){
                 optionData += ("<option value="+data[i].id+"><a >"+data[i].username+"</a></option>");
             }
             //console.log(optionData);
-            $('#chargeUserInForm').append(optionData);
-
+            $("#chargeUserInForm").append(optionData);
+            $("#editChargeUserInForm").append(optionData);
         }
     })
 }
@@ -165,13 +165,17 @@ function initAdminData(){
 
                 detailData += ("<tr>" +
                 "<td><input type='checkbox'/></td>" +
-                "<td>"+data[i].id+"</td>" +
-                "<td>"+data[i].username+"</td>" +
-                "<td>"+data[i].chargedesc+"</td>"+
-                "<td>"+data[i].amount+"</td>" +
-                "<td>"+(data[i].type == 0 ? 'Rev':'Cost')+"</td>" +
-                "<td>"+data[i].date+"</td>" +
-                "<td><button type='button' class='btn btn-info'>Edit</button></td>"+
+                "<td id='r_id'>"+data[i].id+"</td>" +
+                "<td style='display:none;' id='r_uid'>"+data[i].u_id+"</td>" +
+                "<td id='r_username'>"+data[i].username+"</td>" +
+                "<td id='r_desc'>"+data[i].chargedesc+"</td>"+
+                "<td style='display:none;' id='r_desc_id'>"+data[i].charge_cate+"</td>"+
+                "<td id='r_amount'>"+data[i].amount+"</td>" +
+                "<td id='r_type'>"+(data[i].type == 0 ? 'Rev':'Cost')+"</td>" +
+                "<td style='display:none;' id='r_typeid'>"+data[i].type +"</td>" +
+                "<td id='r_date'>"+data[i].date+"</td>" +
+                "<td><button type='button' class='btn btn-info' id='etdButton' onclick='editCharge($(this).parent().parent())'>" +
+                "Edit</button></td>"+
                 "<td><button type='button' class='btn btn-danger'>Remove</button></td>"
                 +"</tr>");
             }

@@ -6,7 +6,14 @@ exports.console = function(req, res){
 exports.addCharge = function(req, res){
     //res.render('admin');
     chargeService.addCharge(req.body['insertData[]'],function(data){
-        res.render('admin');
+        res.json(data);
+    });
+};
+
+exports.updateCharge = function(req, res){
+    //res.render('admin');
+    chargeService.updateCharge(req.body['updateData[]'],req.body['conditionData[]'],function(data){
+        res.json(data);
     });
 };
 

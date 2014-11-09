@@ -26,6 +26,15 @@ exports.addCharge = function(columnData,callback){
     });
 }
 
+exports.updateCharge = function(columnData,conditionData,callback){
+    var columnNames = new Array("u_id","charge_cate","amount","type","date");
+    var filterColumnNames = new Array("id");
+    var tableName = "t_charge";
+    mysqlUtil.updateByCondition(columnNames,filterColumnNames,tableName,columnData,conditionData,function(data){
+        callback(data);
+    });
+}
+
 exports.queryAllCharges = function(callback){
     mysqlUtil.queryByJoinSql(function(data){
         callback(data);

@@ -49,7 +49,7 @@ exports.insertDataByTable = function(columnNamesArr,tablename,columnData,callbac
                         });
                     }
                     else{
-                        callback(results);
+                        callback(1);
                     }
                 });
             }
@@ -58,7 +58,8 @@ exports.insertDataByTable = function(columnNamesArr,tablename,columnData,callbac
 }
 
 exports.queryByJoinSql = function(callback){
-    var querySql = " select a.id as id , b.username as username,c.name as chargedesc,a.amount,a.date,a.type " +
+    var querySql = " select a.id as id , a.u_id, a.charge_cate , b.username as username," +
+        "c.name as chargedesc,a.amount,a.date,a.type " +
         "from t_charge a inner join t_user b on a.u_id = b.id " +
         "inner join t_charge_cate c on a.charge_cate = c.id;";
     var options = {sql: querySql,nestTables: false};
@@ -72,6 +73,37 @@ exports.queryByJoinSql = function(callback){
         }
 
     });
+}
+
+exports.updateByCondition = function(columnNamesArr,filterColumnNames,tablename,updateData,conditionData,callback) {
+    var updateSql = "update " + tablename + " set " +  splitUpdateColumn(columnNamesArr) +
+        " where " + splitFilterColumn(filterColumnNames);
+    var updateData = updateData.concat(conditionData);
+    console.log(updateSql);
+    connection.beginTransaction(function (err) {
+        if (err) {
+            throw err;
+        }
+        connection.query(updateSql, updateData, function (err, result) {
+            if (err) {
+                console.error(err);
+                connection.rollback();
+            }
+            else {
+                connection.commit(function (err) {
+                    if (err) {
+                        connection.rollback(function () {
+                            console.error(err);
+                        })
+                    }else{
+                        callback(1);
+                    }
+                });
+
+            }
+
+        });
+    })
 }
 
 function splitColumnName(columnNames){
@@ -89,3 +121,20 @@ function countInsertParam(columnNamesArr){
     }
     return paraStr.substr(0,paraStr.length-1);
 }
+
+function splitUpdateColumn(updateColumnNamesArr){
+    var paraStr = "";
+    for(var index in updateColumnNamesArr){
+        paraStr += (updateColumnNamesArr[index] +" = ?,");
+    }
+    return paraStr.substr(0,paraStr.length-1);
+}
+
+function splitFilterColumn(filterColumnNamesArr){
+    var paraStr = "";
+    for(var index in filterColumnNamesArr){
+        paraStr += (filterColumnNamesArr[index] +" = ? and ");
+    }
+    return paraStr.substr(0,paraStr.length-(paraStr.lastIndexOf("and")-2));
+}
+

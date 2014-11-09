@@ -29,6 +29,7 @@ app.post('/getChargeType', routes.getChargeType);
 app.post('/getUserInForm', routes.getUserInForm);
 
 app.post('/addCharge',admin.addCharge);
+app.post('/updateCharge',admin.updateCharge);
 app.post('/getAllChargeInfo',admin.getAllCharges);
 
 
