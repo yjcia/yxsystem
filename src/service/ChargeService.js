@@ -56,3 +56,12 @@ exports.queryAllCharges = function(callback){
         callback(data);
     });
 }
+
+exports.queryChargesByCondition = function (filterColumnNames, filterData, callback) {
+    var columnNamesArr = new Array("u_id", "charge_cate", "amount", "type", "date");
+    var tableName = "t_charge";
+    var isBatch = 0;
+    mysqlUtil.queryWithCondition(columnNamesArr, filterColumnNames, filterData, tableName, isBatch, function (data) {
+        callback(data);
+    });
+}
