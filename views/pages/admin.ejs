@@ -58,20 +58,20 @@
                         data-toggle="dropdown" id="conType">
                         ID <span class="caret"></span>
                         </button>
-                        <ul id="conditionBtn" class="dropdown-menu" role="menu">
-                            <li><a >ID</a></li>
-                            <li><a >Name</a></li>
-                            <li><a >Amount</a></li>
-                            <li><a >Date</a></li>
+                        <ul id="conditionBtn" class="dropdown-menu" role="menu" onchange="changeSearchCondition()">
+                            <li id="id"><a>ID</a></li>
+                            <li id="charge_cate"><a>Category</a></li>
+                            <li id="amount"><a>Amount</a></li>
+                            <li id="date"><a>Date</a></li>
                         </ul>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="queryConditionDiv">
 
                     <input type="text" class="form-control" id="searchCondition" placeholder="Search Condition">
-                    </div>
-                    <button type="submit" class="btn btn-info">Search</button>
-                </form>
+                </div>
+                <button type="submit" class="btn btn-info" onclick="doSearch()">Search</button>
+            </form>
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -103,7 +103,7 @@
                         </div>
                         <div class="form-group">
                             <label for="charge">Charge Desc</label>
-                            <select class="form-control" placeholder="Enter User" id="chargeDescInForm">
+                            <select class="form-control" placeholder="Enter Charge Cate" id="chargeDescInForm">
                             </select>
                         </div>
                         <div class="form-group">

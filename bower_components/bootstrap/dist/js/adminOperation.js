@@ -124,4 +124,29 @@ function updateCharge(){
 
         }
     });
+
+}
+
+function doSearch() {
+    $.ajax({
+        url: "/searchCharge",
+        type: "post",
+        dataType: "json",
+        async: true,
+        data: {
+            searchData: [],
+            conditionData: []
+        },
+        success: function (data) {
+            //console.log("data -->" + data);
+            if ("1" == data) {
+
+            }
+
+        }
+    });
+}
+
+function changeSearchCondition() {
+
 }

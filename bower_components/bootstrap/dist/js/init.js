@@ -3,7 +3,8 @@ function bindOnclickEvent(){
 
     arr.each(function(){
         var eachValue = $(this).text();
-        $(this).find("a").attr("onclick","changeValue('"+eachValue+"')");
+        var currentId = $(this).attr("id");
+        $(this).find("a").attr("onclick", "changeValue('" + eachValue + "','" + currentId + "')");
         //console.log($(this).find("a"))
     });
 
