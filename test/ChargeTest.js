@@ -29,12 +29,12 @@ var mysqlUtil = require('../src/util/MysqlUtil');
 //});
 
 
-var filterColumnNames = new Array("id");
-var conditionData = [11];
-var tableName = "t_charge";
-mysqlUtil.deleteByCondition(filterColumnNames,tableName,conditionData,function(data){
-    //callback(data);
-});
+//var filterColumnNames = new Array("id");
+//var conditionData = [11];
+//var tableName = "t_charge";
+//mysqlUtil.deleteByCondition(filterColumnNames,tableName,conditionData,function(data){
+//    //callback(data);
+//});
 
 //var conditionData = [9,10];
 //var filterColumnNames = new Array("id");
@@ -42,3 +42,16 @@ mysqlUtil.deleteByCondition(filterColumnNames,tableName,conditionData,function(d
 //mysqlUtil.deleteBatchByCondition(filterColumnNames,tableName,conditionData,function(data){
 //    //callback(data);
 //});
+var filterData = "16";
+var dateFrom = "2014-11-15";
+var dateTo = "2014-11-16";
+var IsFilterDate = "true";
+var columnNamesArr = new Array("u_id","charge_cate","amount","type","date");
+var filterColumnNames = new Array("id");
+var tableName = "t_charge";
+mysqlUtil.queryWithCondition(columnNamesArr, filterColumnNames, filterData, tableName, 0,
+    dateFrom,dateTo,IsFilterDate,function(data){
+    console.log(data);
+})
+
+

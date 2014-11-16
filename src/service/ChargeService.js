@@ -57,11 +57,13 @@ exports.queryAllCharges = function(callback){
     });
 }
 
-exports.queryChargesByCondition = function (filterColumnNames, filterData, callback) {
+exports.queryChargesByCondition = function (filterColumnNames, filterData,dateFrom,dateTo,IsFilterDate, callback) {
     var columnNamesArr = new Array("u_id", "charge_cate", "amount", "type", "date");
     var tableName = "t_charge";
     var isBatch = 0;
-    mysqlUtil.queryWithCondition(columnNamesArr, filterColumnNames, filterData, tableName, isBatch, function (data) {
+
+    mysqlUtil.queryWithCondition(columnNamesArr, filterColumnNames, filterData, tableName, isBatch,
+        dateFrom,dateTo,IsFilterDate,function (data) {
         callback(data);
     });
 }

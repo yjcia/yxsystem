@@ -36,3 +36,11 @@ exports.getAllCharges = function(req,res){
         res.json(chargesInfo);
     });
 }
+
+exports.getQueryCharges = function(req,res){
+
+    chargeService.queryChargesByCondition(req.body['condition'],req.body['conditionValue'],
+        req.body['dateFrom'],req.body['dateTo'],req.body['isFilterDate'],function(chargesInfo){
+        res.json(chargesInfo);
+    });
+}

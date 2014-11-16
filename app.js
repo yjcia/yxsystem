@@ -33,6 +33,7 @@ app.post('/updateCharge',admin.updateCharge);
 app.post('/deleteCharge',admin.deleteCharge);
 app.post('/batchDeleteCharge',admin.batchDeleteCharge);
 app.post('/getAllChargeInfo',admin.getAllCharges);
+app.post('/searchCharge',admin.getQueryCharges);
 
 
 //app.post('/test',function(req,res){

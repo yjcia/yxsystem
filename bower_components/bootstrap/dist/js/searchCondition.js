@@ -1,9 +1,13 @@
 function changeValue(newValue, currentId) {
-
+    //$("#selectConditionBtn").val("");
+    $("#selectConditionBtn").val(currentId);
     $("#conType").text(newValue).append(" <span class='caret'></span>");
     $("#searchCondition").attr("placeholder","Please Enter "+newValue);
     if (currentId.toString() == "id") {
-
+        $("#queryConditionDiv").empty();
+        var idForQuery = "<input type='text' class='form-control' id='idForCondition' " +
+            "placeholder='Enter ID'>";
+        $("#queryConditionDiv").append(idForQuery);
     } else if (currentId.toString() == "charge_cate") {
         //console.log("click id :"+currentId.toString());
         $("#queryConditionDiv").empty();
@@ -32,14 +36,17 @@ function changeValue(newValue, currentId) {
             "placeholder='Enter Amount To'>";
         $("#queryConditionDiv").append(amountRangeFrom + rangeSplit + amountRangeTo);
     } else if (currentId.toString() == "date") {
-        $("#queryConditionDiv").empty();
-        var dateRangeFrom = "<div id = 'queryDateFrom' class='input-append date form_date ' data-date=''>"
-            + "<input class='form-control' size='16' type='text' value='' id='dateFrom'"
-            + "placeholder='Enter Date From'><span class='add-on'><i class='icon-th'></i></span></div>";
-        //var rangeSplit = " - ";
-        //var dateRangeTo = "<div id = 'queryDateTo' class='input-append date form_date ' data-date=''>"
-        //+"<input class='form-control' size='16' type='text' value='' id='dateTo'"
-        //+"placeholder='Enter Date To'><span class='add-on'><i class='icon-th'></i></span></div>";
-        $("#queryConditionDiv").append(dateRangeFrom);
+        //$("#queryConditionDiv").empty();
+        //var dateRangeFrom = "<div id = 'queryDateFrom' class='input-append date form_date ' data-date=''>"
+        //    + "<input class='form-control' size='16' type='text' value='' id='dateFrom'"
+        //    + "placeholder='Enter Date From'><span class='add-on'><i class='icon-th'></i></span></div>";
+        ////var rangeSplit = " - ";
+        ////var dateRangeTo = "<div id = 'queryDateTo' class='input-append date form_date ' data-date=''>"
+        ////+"<input class='form-control' size='16' type='text' value='' id='dateTo'"
+        ////+"placeholder='Enter Date To'><span class='add-on'><i class='icon-th'></i></span></div>";
+        //
+        //
+        //$("#queryConditionDiv").append(dateRangeFrom);
+
     }
 }

@@ -128,25 +128,82 @@ function updateCharge(){
 }
 
 function doSearch() {
+    var queryCondition = $("#selectConditionBtn").val();
+    var queryConditionValue = $("#idSearchCondition").val();
+    if (queryCondition.toString() == "id" && queryCondition != "" && queryConditionValue == "") {
+
+        queryConditionValue = $("#idForCondition").val();
+
+    } else if (queryCondition == "charge_cate") {
+        queryConditionValue = $("#chargeDescForCondition").val();
+    } else if (queryCondition == "amount") {
+
+        var amountFrom = $("#amountFrom").val();
+        var amountTo = $("#amountTo").val();
+        queryConditionValue = amountFrom + ":" + amountTo;
+    }
+    var dateFrom = $("#dateFrom").val();
+    var dateTo = $("#dateTo").val();
+    var isNeedFilterDate = true;
+    if(dateFrom == "" &&dateTo == ""){
+        isNeedFilterDate = false;
+
+    }
+    //alert(queryConditionValue);
+    //$("#queryConditionForm")[0].reset();
     $.ajax({
         url: "/searchCharge",
         type: "post",
         dataType: "json",
         async: true,
         data: {
-            searchData: [],
-            conditionData: []
+            condition : queryCondition,
+            conditionValue : queryConditionValue,
+            isFilterDate : isNeedFilterDate,
+            dateFrom : dateFrom,
+            dateTo : dateTo
         },
         success: function (data) {
             //console.log("data -->" + data);
             if ("1" == data) {
 
+                var headerData = "<tr>" +
+                    "<th></th><th>Id</th>" +
+                    "<th>User</th>" +
+                    "<th>Charge Desc</th>" +
+                    "<th>Amount</th>" +
+                    "<th>Type</th>" +
+                    "<th>Date</th>" +
+                    "<th colspan='2'>Operation</th>" +
+                    "</tr>"
+                var detailData = "";
+                for(var i=0;i<data.length;i++){
+                    var trStyle = data[i].type == 1 ? " class='danger'" :" class='success'";
+                    detailData += ("<tr" + trStyle + ">" +
+                    "<td id='r_select'><input type='checkbox' id='selectCharge'/></td>" +
+                    "<td id='r_id'>"+data[i].id+"</td>" +
+                    "<td style='display:none;' id='r_uid'>"+data[i].u_id+"</td>" +
+                    "<td id='r_username'>"+data[i].username+"</td>" +
+                    "<td id='r_desc'>"+data[i].chargedesc+"</td>"+
+                    "<td style='display:none;' id='r_desc_id'>"+data[i].charge_cate+"</td>"+
+                    "<td id='r_amount'>"+data[i].amount+"</td>" +
+                    "<td id='r_type'>"+(data[i].type == 0 ? 'Rev':'Cost')+"</td>" +
+                    "<td style='display:none;' id='r_typeid'>"+data[i].type +"</td>" +
+                    "<td id='r_date'>"+data[i].date+"</td>" +
+                    "<td><button type='button' class='btn btn-info' id='etdButton' onclick='editCharge($(this).parent().parent())'>" +
+                    "Edit</button></td>"+
+                    "<td><button type='button' class='btn btn-danger' onclick='deleteCharge($(this).parent().parent())'>" +
+                    "Remove</button></td>"
+                    +"</tr>");
+                }
+                //console.log(liData);
+                $('#adminDataTable').empty();
+                $('#adminDataTable').append(headerData).append(detailData);
+
+                $("#queryConditionForm")[0].reset();
             }
 
         }
     });
 }
 
-function changeSearchCondition() {
-
-}

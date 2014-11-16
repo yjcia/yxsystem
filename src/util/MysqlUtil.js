@@ -75,20 +75,25 @@ exports.queryByJoinSql = function(callback){
     });
 }
 
-exports.queryWithCondition = function (columnNamesArr, filterColumnNames, filterData, tablename, isBatch, callback) {
+exports.queryWithCondition = function (columnNamesArr, filterColumnNames, filterData, tablename, isBatch,
+                                       dateFrom,dateTo,IsFilterDate,callback) {
     var queryConditionPartStr = "";
     if (isBatch) {
         queryConditionPartStr = splitInFilterColumnWithOutData(filterColumnNames);
     }
     else {
-        queryConditionPartStr = splitEqualsFilterColumn(filterColumnNames);
+        queryConditionPartStr = splitQueryFilterColumn(filterColumnNames,filterData,dateFrom,dateTo,IsFilterDate);
     }
-    var querySql = "select " + splitColumnName(columnNamesArr) + " from " + tablename +
+
+    var querySql = "select " + splitColumnName(columnNamesArr,IsFilterDate) + " from " + tablename +
         " where " + queryConditionPartStr;
-    if (tablename.equals("t_charge")) {
+    if (tablename == "t_charge") {
         querySql += " and is_void = 0";
     }
-    connection.query(querySql, filterData, function (err, results) {
+    var queryConditionData = splitQueryFilterData(filterData,dateFrom,dateTo,IsFilterDate);
+    console.log(queryConditionData);
+    console.log(querySql);
+    connection.query(querySql, queryConditionData, function (err, results) {
         if (err) {
             console.log(err);
         }
@@ -190,6 +195,65 @@ exports.deleteBatchByCondition = function(filterColumnNames,tablename,conditionD
         });
     })
 }
+function splitQueryFilterData(filterData,dateFrom,dateTo,IsFilterDate){
+    var afterSplitData = filterData.split(":");
+    if(IsFilterDate){
+        if(dateFrom != "" && dateTo != ""){
+            afterSplitData.push(dateFrom);
+            afterSplitData.push(dateTo);
+        }
+        else if(dateFrom != "" && dateTo == ""){
+            afterSplitData.push(dateFrom);
+        }
+        else if(dateFrom == "" && dateTo != ""){
+            afterSplitData.push(dateTo);
+        }
+
+    }
+    return afterSplitData;
+
+}
+function splitQueryFilterColumn(filterColumnNamesArr,filterData,dateFrom,dateTo,IsFilterDate){
+    var paraStr = "";
+    for(var index in filterColumnNamesArr){
+        //paraStr += (filterColumnNamesArr[index] +" = ? and ");
+        var filterColumnName = filterColumnNamesArr[index];
+        if(filterColumnName == "id"){
+            paraStr += (filterColumnName +" = ? and ");
+        }
+        else if(filterColumnName == "charge_cate"){
+            paraStr += (filterColumnName +" = ? and ");
+
+        }
+        else if(filterColumnName == "amount"){
+            var afterSpliAmount = filterData.split(":");
+            if(afterSpliAmount[0] != "" && afterSpliAmount[1] != ""){
+                paraStr += (filterColumnName +" >= ? and " + filterColumnName + " <= ? and ");
+            }
+            else if(afterSpliAmount[0] != "" && afterSpliAmount[1] == ""){
+                paraStr += (filterColumnName +" >= ? and ");
+            }
+            else if(afterSpliAmount[0] == "" && afterSpliAmount[1] != ""){
+                paraStr += (filterColumnName +" <= ? and ");
+            }
+
+        }
+
+        if(IsFilterDate){
+            if(dateFrom != "" && dateTo != ""){
+                paraStr += ("date >= ? and date <= ? and ");
+            }
+            else if(dateFrom != "" && dateTo == ""){
+                paraStr += ("date >= ? and ");
+            }
+            else if(dateFrom == "" && dateTo != ""){
+                paraStr += ("date <= ? and ");
+            }
+
+        }
+    }
+    return paraStr.substr(0,paraStr.length-4);
+}
 
 function splitColumnName(columnNames){
     var columnStr = "";
@@ -198,6 +262,17 @@ function splitColumnName(columnNames){
     }
     return columnStr.substr(0,columnStr.length-1);
 }
+
+//function splitQueryFilterColumn(columnNamesArr,IsFilterDate){
+//    var columnStr = "";
+//    for(var column in columnNamesArr){
+//        columnStr += (columnNamesArr[column] + ",");
+//    }
+//    if(IsFilterDate){
+//        columnStr += " date ,";
+//    }
+//    return columnStr.substr(0,columnStr.length-1);
+//}
 
 function countInsertParam(columnNamesArr){
     var paraStr = "";
