@@ -11,11 +11,11 @@ var connection = mysql.createConnection({
 
 connection.connect();
 
-exports.queryAllDataByTable = function(columnNamesArr,tablename,callback) {
+exports.queryAllDataByTable = function (columnNamesArr, tablename, callback) {
     var querySql = "select " + splitColumnName(columnNamesArr) + " from " + tablename;
     var options = {sql: querySql};
     connection.query(options, function (err, results) {
-        if(err){
+        if (err) {
             console.log(err);
         }
         else {
@@ -27,28 +27,28 @@ exports.queryAllDataByTable = function(columnNamesArr,tablename,callback) {
 }
 
 
-exports.insertDataByTable = function(columnNamesArr,tablename,columnData,callback){
-    var insertSql = "insert into "+ tablename + "("
-        +splitColumnName(columnNamesArr) + ") values("+countInsertParam(columnNamesArr)+")" ;
+exports.insertDataByTable = function (columnNamesArr, tablename, columnData, callback) {
+    var insertSql = "insert into " + tablename + "("
+        + splitColumnName(columnNamesArr) + ") values(" + countInsertParam(columnNamesArr) + ")";
     var insertData = columnData;
 
     connection.beginTransaction(function (err) {
-        if(err){
+        if (err) {
             throw err;
         }
-        connection.query(insertSql,insertData,function (err, results) {
+        connection.query(insertSql, insertData, function (err, results) {
             console.log(insertSql);
-            if(err){
+            if (err) {
                 console.log(err);
                 connection.rollback();
-            }else{
-                connection.commit(function(err){
-                    if(err) {
+            } else {
+                connection.commit(function (err) {
+                    if (err) {
                         connection.rollback(function () {
                             console.error(err);
                         });
                     }
-                    else{
+                    else {
                         callback(1);
                     }
                 });
@@ -57,14 +57,14 @@ exports.insertDataByTable = function(columnNamesArr,tablename,columnData,callbac
     });
 }
 
-exports.queryByJoinSql = function(callback){
+exports.queryByJoinSql = function (callback) {
     var querySql = " select a.id as id , a.u_id, a.charge_cate , b.username as username," +
         "c.name as chargedesc,a.amount,a.date,a.type " +
         "from t_charge a inner join t_user b on a.u_id = b.id " +
         "inner join t_charge_cate c on a.charge_cate = c.id and a.is_void = 0;";
-    var options = {sql: querySql,nestTables: false};
+    var options = {sql: querySql, nestTables: false};
     connection.query(options, function (err, results) {
-        if(err){
+        if (err) {
             console.log(err);
         }
         else {
@@ -76,21 +76,21 @@ exports.queryByJoinSql = function(callback){
 }
 
 exports.queryWithCondition = function (columnNamesArr, filterColumnNames, filterData, tablename, isBatch,
-                                       dateFrom,dateTo,IsFilterDate,callback) {
+                                       dateFrom, dateTo, IsFilterDate, callback) {
     var queryConditionPartStr = "";
     if (isBatch) {
         queryConditionPartStr = splitInFilterColumnWithOutData(filterColumnNames);
     }
     else {
-        queryConditionPartStr = splitQueryFilterColumn(filterColumnNames,filterData,dateFrom,dateTo,IsFilterDate);
+        queryConditionPartStr = splitQueryFilterColumn(filterColumnNames, filterData, dateFrom, dateTo, IsFilterDate);
     }
 
-    var querySql = "select " + splitColumnName(columnNamesArr,IsFilterDate) + " from " + tablename +
+    var querySql = "select " + splitColumnName(columnNamesArr, IsFilterDate) + " from " + tablename +
         " where " + queryConditionPartStr;
     if (tablename == "t_charge") {
         querySql += " and is_void = 0";
     }
-    var queryConditionData = splitQueryFilterData(filterData,dateFrom,dateTo,IsFilterDate);
+    var queryConditionData = splitQueryFilterData(filterData, dateFrom, dateTo, IsFilterDate);
     console.log(queryConditionData);
     console.log(querySql);
     connection.query(querySql, queryConditionData, function (err, results) {
@@ -105,8 +105,8 @@ exports.queryWithCondition = function (columnNamesArr, filterColumnNames, filter
     });
 }
 
-exports.updateByCondition = function(columnNamesArr,filterColumnNames,tablename,updateData,conditionData,callback) {
-    var updateSql = "update " + tablename + " set " +  splitUpdateColumn(columnNamesArr) +
+exports.updateByCondition = function (columnNamesArr, filterColumnNames, tablename, updateData, conditionData, callback) {
+    var updateSql = "update " + tablename + " set " + splitUpdateColumn(columnNamesArr) +
         " where " + splitEqualsFilterColumn(filterColumnNames);
     var updateData = updateData.concat(conditionData);
     //console.log(updateSql);
@@ -125,7 +125,7 @@ exports.updateByCondition = function(columnNamesArr,filterColumnNames,tablename,
                         connection.rollback(function () {
                             console.error(err);
                         })
-                    }else{
+                    } else {
                         callback(1);
                     }
                 });
@@ -136,7 +136,7 @@ exports.updateByCondition = function(columnNamesArr,filterColumnNames,tablename,
     })
 }
 
-exports.deleteByCondition = function(filterColumnNames,tablename,conditionData,callback) {
+exports.deleteByCondition = function (filterColumnNames, tablename, conditionData, callback) {
     var deleteSql = "update " + tablename + " set is_void = 1 " +
         " where " + splitEqualsFilterColumn(filterColumnNames);
     console.log(deleteSql);
@@ -155,7 +155,7 @@ exports.deleteByCondition = function(filterColumnNames,tablename,conditionData,c
                         connection.rollback(function () {
                             console.error(err);
                         })
-                    }else{
+                    } else {
                         callback(1);
                     }
                 });
@@ -166,9 +166,9 @@ exports.deleteByCondition = function(filterColumnNames,tablename,conditionData,c
     })
 }
 
-exports.deleteBatchByCondition = function(filterColumnNames,tablename,conditionData,callback) {
-    var deleteSql = "update " + tablename  + " set is_void = 1"+
-        " where " + splitInFilterColumn(filterColumnNames,conditionData);
+exports.deleteBatchByCondition = function (filterColumnNames, tablename, conditionData, callback) {
+    var deleteSql = "update " + tablename + " set is_void = 1" +
+        " where " + splitInFilterColumn(filterColumnNames, conditionData);
     console.log(deleteSql);
     connection.beginTransaction(function (err) {
         if (err) {
@@ -185,7 +185,7 @@ exports.deleteBatchByCondition = function(filterColumnNames,tablename,conditionD
                         connection.rollback(function () {
                             console.error(err);
                         })
-                    }else{
+                    } else {
                         callback(1);
                     }
                 });
@@ -195,17 +195,17 @@ exports.deleteBatchByCondition = function(filterColumnNames,tablename,conditionD
         });
     })
 }
-function splitQueryFilterData(filterData,dateFrom,dateTo,IsFilterDate){
+function splitQueryFilterData(filterData, dateFrom, dateTo, IsFilterDate) {
     var afterSplitData = filterData.split(":");
-    if(IsFilterDate){
-        if(dateFrom != "" && dateTo != ""){
+    if (IsFilterDate) {
+        if (dateFrom != "" && dateTo != "") {
             afterSplitData.push(dateFrom);
             afterSplitData.push(dateTo);
         }
-        else if(dateFrom != "" && dateTo == ""){
+        else if (dateFrom != "" && dateTo == "") {
             afterSplitData.push(dateFrom);
         }
-        else if(dateFrom == "" && dateTo != ""){
+        else if (dateFrom == "" && dateTo != "") {
             afterSplitData.push(dateTo);
         }
 
@@ -213,54 +213,54 @@ function splitQueryFilterData(filterData,dateFrom,dateTo,IsFilterDate){
     return afterSplitData;
 
 }
-function splitQueryFilterColumn(filterColumnNamesArr,filterData,dateFrom,dateTo,IsFilterDate){
+function splitQueryFilterColumn(filterColumnNamesArr, filterData, dateFrom, dateTo, IsFilterDate) {
     var paraStr = "";
-    for(var index in filterColumnNamesArr){
+    for (var index in filterColumnNamesArr) {
         //paraStr += (filterColumnNamesArr[index] +" = ? and ");
         var filterColumnName = filterColumnNamesArr[index];
-        if(filterColumnName == "id"){
-            paraStr += (filterColumnName +" = ? and ");
+        if (filterColumnName == "id") {
+            paraStr += (filterColumnName + " = ? and ");
         }
-        else if(filterColumnName == "charge_cate"){
-            paraStr += (filterColumnName +" = ? and ");
+        else if (filterColumnName == "charge_cate") {
+            paraStr += (filterColumnName + " = ? and ");
 
         }
-        else if(filterColumnName == "amount"){
+        else if (filterColumnName == "amount") {
             var afterSpliAmount = filterData.split(":");
-            if(afterSpliAmount[0] != "" && afterSpliAmount[1] != ""){
-                paraStr += (filterColumnName +" >= ? and " + filterColumnName + " <= ? and ");
+            if (afterSpliAmount[0] != "" && afterSpliAmount[1] != "") {
+                paraStr += (filterColumnName + " >= ? and " + filterColumnName + " <= ? and ");
             }
-            else if(afterSpliAmount[0] != "" && afterSpliAmount[1] == ""){
-                paraStr += (filterColumnName +" >= ? and ");
+            else if (afterSpliAmount[0] != "" && afterSpliAmount[1] == "") {
+                paraStr += (filterColumnName + " >= ? and ");
             }
-            else if(afterSpliAmount[0] == "" && afterSpliAmount[1] != ""){
-                paraStr += (filterColumnName +" <= ? and ");
+            else if (afterSpliAmount[0] == "" && afterSpliAmount[1] != "") {
+                paraStr += (filterColumnName + " <= ? and ");
             }
 
         }
 
-        if(IsFilterDate){
-            if(dateFrom != "" && dateTo != ""){
+        if (IsFilterDate) {
+            if (dateFrom != "" && dateTo != "") {
                 paraStr += ("date >= ? and date <= ? and ");
             }
-            else if(dateFrom != "" && dateTo == ""){
+            else if (dateFrom != "" && dateTo == "") {
                 paraStr += ("date >= ? and ");
             }
-            else if(dateFrom == "" && dateTo != ""){
+            else if (dateFrom == "" && dateTo != "") {
                 paraStr += ("date <= ? and ");
             }
 
         }
     }
-    return paraStr.substr(0,paraStr.length-4);
+    return paraStr.substr(0, paraStr.length - 4);
 }
 
-function splitColumnName(columnNames){
+function splitColumnName(columnNames) {
     var columnStr = "";
-    for(var column in columnNames){
+    for (var column in columnNames) {
         columnStr += (columnNames[column] + ",");
     }
-    return columnStr.substr(0,columnStr.length-1);
+    return columnStr.substr(0, columnStr.length - 1);
 }
 
 //function splitQueryFilterColumn(columnNamesArr,IsFilterDate){
@@ -274,35 +274,35 @@ function splitColumnName(columnNames){
 //    return columnStr.substr(0,columnStr.length-1);
 //}
 
-function countInsertParam(columnNamesArr){
+function countInsertParam(columnNamesArr) {
     var paraStr = "";
-    for(var column in columnNamesArr){
+    for (var column in columnNamesArr) {
         paraStr += ("?,");
     }
-    return paraStr.substr(0,paraStr.length-1);
+    return paraStr.substr(0, paraStr.length - 1);
 }
 
-function splitUpdateColumn(updateColumnNamesArr){
+function splitUpdateColumn(updateColumnNamesArr) {
     var paraStr = "";
-    for(var index in updateColumnNamesArr){
-        paraStr += (updateColumnNamesArr[index] +" = ?,");
+    for (var index in updateColumnNamesArr) {
+        paraStr += (updateColumnNamesArr[index] + " = ?,");
     }
-    return paraStr.substr(0,paraStr.length-1);
+    return paraStr.substr(0, paraStr.length - 1);
 }
 
-function splitEqualsFilterColumn(filterColumnNamesArr){
+function splitEqualsFilterColumn(filterColumnNamesArr) {
     var paraStr = "";
-    for(var index in filterColumnNamesArr){
-        paraStr += (filterColumnNamesArr[index] +" = ? and ");
+    for (var index in filterColumnNamesArr) {
+        paraStr += (filterColumnNamesArr[index] + " = ? and ");
     }
-    return paraStr.substr(0,paraStr.length-(paraStr.lastIndexOf("and")-2));
+    return paraStr.substr(0, paraStr.length - (paraStr.lastIndexOf("and") - 2));
 }
 
 
-function splitInFilterColumn(filterColumnNamesArr,conditionData){
+function splitInFilterColumn(filterColumnNamesArr, conditionData) {
     var sqlInStr = filterColumnNamesArr + " in (";
     var paramStr = "";
-    for(var index in conditionData){
+    for (var index in conditionData) {
         paramStr += "?,";
     }
     paramStr = paramStr.substr(0, paramStr.length - 1) + ")";
