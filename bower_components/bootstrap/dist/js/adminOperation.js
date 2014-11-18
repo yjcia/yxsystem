@@ -27,7 +27,7 @@ function addCharge(){
             insertData:[
                 $("#chargeUserInForm").val(),
                 $("#chargeDescInForm").val(),
-                $("#amount").val(),
+                $("#amountForAdd").val(),
                 $("#chargeType").val(),
                 $("#date").val()
             ]
@@ -165,7 +165,7 @@ function doSearch() {
         },
         success: function (data) {
             //console.log("data -->" + data);
-            if ("1" == data) {
+
 
                 var headerData = "<tr>" +
                     "<th></th><th>Id</th>" +
@@ -184,7 +184,7 @@ function doSearch() {
                     "<td id='r_id'>"+data[i].id+"</td>" +
                     "<td style='display:none;' id='r_uid'>"+data[i].u_id+"</td>" +
                     "<td id='r_username'>"+data[i].username+"</td>" +
-                    "<td id='r_desc'>"+data[i].chargedesc+"</td>"+
+                    "<td id='r_desc'>" + data[i].name + "</td>" +
                     "<td style='display:none;' id='r_desc_id'>"+data[i].charge_cate+"</td>"+
                     "<td id='r_amount'>"+data[i].amount+"</td>" +
                     "<td id='r_type'>"+(data[i].type == 0 ? 'Rev':'Cost')+"</td>" +
@@ -195,8 +195,8 @@ function doSearch() {
                     "<td><button type='button' class='btn btn-danger' onclick='deleteCharge($(this).parent().parent())'>" +
                     "Remove</button></td>"
                     +"</tr>");
-                }
-                //console.log(liData);
+
+                    //console.log(liData);
                 $('#adminDataTable').empty();
                 $('#adminDataTable').append(headerData).append(detailData);
 

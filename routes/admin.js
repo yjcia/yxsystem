@@ -5,6 +5,7 @@ exports.console = function(req, res){
 
 exports.addCharge = function(req, res){
     //res.render('admin');
+    console.log(req.body['insertData[]']);
     chargeService.addCharge(req.body['insertData[]'],function(data){
         res.json(data);
     });

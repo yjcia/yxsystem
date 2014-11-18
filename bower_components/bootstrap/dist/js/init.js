@@ -169,7 +169,7 @@ function initAdminData(){
                 "<td id='r_id'>"+data[i].id+"</td>" +
                 "<td style='display:none;' id='r_uid'>"+data[i].u_id+"</td>" +
                 "<td id='r_username'>"+data[i].username+"</td>" +
-                "<td id='r_desc'>"+data[i].chargedesc+"</td>"+
+                "<td id='r_desc'>" + data[i].name + "</td>" +
                 "<td style='display:none;' id='r_desc_id'>"+data[i].charge_cate+"</td>"+
                 "<td id='r_amount'>"+data[i].amount+"</td>" +
                 "<td id='r_type'>"+(data[i].type == 0 ? 'Rev':'Cost')+"</td>" +
