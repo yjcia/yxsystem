@@ -1,7 +1,15 @@
 var chargeService = require('../src/service/ChargeService');
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
+
+    res.render('index', {title: 'Express'});
+};
+
+exports.showWithChargeType = function (req, res) {
+    chargeService.queryAllChargeType(function (chargeTypeData) {
+        //console.log(chargeTypeData);
+        res.json(chargeTypeData);
+    })
 };
 
 exports.test = function(req, res){
