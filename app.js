@@ -23,6 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // all Route
 app.get('/', routes.index);
 app.post('/getChargeInfoByChargeType', routes.showWithChargeType);
+app.post('/searchChargeForIndex', routes.searchChargeForIndex);
 app.get('/test', routes.test);
 app.get('/chart', charts.showChart);
 app.get('/admin', admin.console);

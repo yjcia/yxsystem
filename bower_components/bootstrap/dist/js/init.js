@@ -122,6 +122,7 @@ function showByChargeType(chargeTypeParam) {
             chargeType: chargeTypeParam
         },
         success: function (data) {
+            $('#dataTable').empty();
             var headerData = "<tr>" +
                 "<th></th><th>Id</th>" +
                 "<th>User</th>" +
@@ -165,6 +166,7 @@ function initChargeTypeInForm(){
             //console.log(optionData);
             $('#chargeDescInForm').append(optionData);
             $('#editChargeDescInForm').append(optionData);
+            $('#searchChargeDescInForm').append(optionData);
         }
     })
 }
@@ -182,6 +184,7 @@ function initUserInForm(){
             //console.log(optionData);
             $("#chargeUserInForm").append(optionData);
             $("#editChargeUserInForm").append(optionData);
+            $("#searchChargeUserInForm").append(optionData);
         }
     })
 }
@@ -233,6 +236,7 @@ function initShowData() {
         type: "post",
         data: {},
         success: function (data) {
+
             var headerData = "<tr>" +
                 "<th></th><th>Id</th>" +
                 "<th>User</th>" +
@@ -240,7 +244,7 @@ function initShowData() {
                 "<th>Amount</th>" +
                 "<th>Type</th>" +
                 "<th>Date</th>" +
-                "</tr>"
+                "</tr>";
             var detailData = "";
             for (var i = 0; i < data.length; i++) {
                 var trStyle = data[i].type == 1 ? " class='danger'" : " class='success'";

@@ -93,15 +93,17 @@ var columnNamesArr = new Array(columnNamesCharge, columnNamesChargeCate, columnN
 //mysqlUtil.deleteBatchByCondition(filterColumnNames,tableName,conditionData,function(data){
 //    //callback(data);
 //});
-var filterData = "1";
-var dateFrom = "2014-11-11";
-var dateTo = "2014-11-13";
-var IsFilterDate = false;
-var filterColumnNames = new Array("charge_cate");
-var tableName = "t_charge";
-mysqlUtil.queryChargesWithCondition(columnNamesArr, joinColumns, filterColumnNames, filterData, tableName, 0,
-    dateFrom,dateTo,IsFilterDate,function(data){
-    console.log(data);
-})
+//var filterData = "1";
+//var dateFrom = "2014-11-11";
+//var dateTo = "2014-11-13";
+//var IsFilterDate = false;
+//var filterColumnNames = new Array("charge_cate");
+//var tableName = "t_charge";
+//mysqlUtil.queryChargesWithCondition(columnNamesArr, joinColumns, filterColumnNames, filterData, tableName, 0,
+//    dateFrom,dateTo,IsFilterDate,function(data){
+//    console.log(data);
+//})
+
+
 
 

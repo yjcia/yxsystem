@@ -5,7 +5,7 @@
     <title></title>
     <link href="/bootstrap/dist/css/sidebar.css" rel="stylesheet">
     <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <link href="/smalot-bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -41,33 +41,16 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-2 sidebar col-sm-2">
+
             <ul class="nav nav-sidebar" id="chargeTypeBar">
+
             </ul>
         </div>
 
         <div class="col-md-10 main col-sm-10">
             <form class="form-inline" role="form">
-                <div class="form-group">
-                    <div class="btn-group">
-                        <button type="button"
-                            class="btn btn-default dropdown-toggle"
-                            data-toggle="dropdown" id="conType">
-                        ID <span class="caret"></span>
-                        </button>
-                        <ul id="conditionBtn" class="dropdown-menu" role="menu">
-                            <li><a >ID</a></li>
-                            <li><a >Name</a></li>
-                            <li><a >Amount</a></li>
-                            <li><a >Type</a></li>
-                            <li><a >Date</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="form-group">
-
-                    <input type="text" class="form-control" id="searchCondition" placeholder="Search Condition">
-                </div>
-                <button type="submit" class="btn btn-info">Search</button>
+                <button type="button" class="btn btn-info" data-toggle="modal"
+                        data-target="#searchChargeModal">Advance</button>
             </form>
             <table id="dataTable" class="table table-hover table-condensed">
 
@@ -75,13 +58,87 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="searchChargeModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Search Charge
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" method="post" id="searchChargeIndexForm">
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="editId">
+                    </div>
 
+                    <div class="form-group">
+                        <label for="userName">User Name</label>
+                        <select class="form-control" placeholder="Enter User" id="searchChargeUserInForm">
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="charge">Charge Desc</label>
+                        <select class="form-control" placeholder="Enter User" id="searchChargeDescInForm">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="amount">Amount From</label>
+                        <input type="number" class="form-control" id="searchAmountFrom" placeholder="Enter Amount From">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="amount">Amount To</label>
+                        <input type="number" class="form-control" id="searchAmountTo" placeholder="Enter Amount To">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Date">Date From</label>
+
+                        <div id = "searchDateFrom" class="input-append date form_date " data-date="">
+                            <input class="form-control" size="16" type="text" value="" id="searchDateFromInForm"
+                                   placeholder="Enter Date From">
+
+                            <span class="add-on"><i class="icon-th"></i></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Date">Date To</label>
+
+                        <div id = "searchDateTo" class="input-append date form_date " data-date="">
+                            <input class="form-control" size="16" type="text" value="" id="searchDateToInForm"
+                                   placeholder="Enter Date To">
+
+                            <span class="add-on"><i class="icon-th"></i></span>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-info" data-dismiss="modal" onclick="indexQueryCharge()">
+                        Search
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <script src="/jquery/dist/jquery.min.js"></script>
 <script src="/bootstrap/dist/js/init.js"></script>
+<script src="/smalot-bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/smalot-bootstrap-datetimepicker/js/datetimepicker.js"></script>
 <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="/bootstrap/dist/js/sidebar.js"></script>
 <script src="/bootstrap/dist/js/searchCondition.js"></script>
+<script src="/bootstrap/dist/js/userOperation.js"></script>
+
 </body>
 </html>

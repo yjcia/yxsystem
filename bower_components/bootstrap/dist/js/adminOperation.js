@@ -166,7 +166,7 @@ function doSearch() {
         success: function (data) {
             //console.log("data -->" + data);
 
-
+            $("#adminDataTable").empty();
                 var headerData = "<tr>" +
                     "<th></th><th>Id</th>" +
                     "<th>User</th>" +
@@ -195,11 +195,9 @@ function doSearch() {
                     "<td><button type='button' class='btn btn-danger' onclick='deleteCharge($(this).parent().parent())'>" +
                     "Remove</button></td>"
                     +"</tr>");
-
-                    //console.log(liData);
-                $('#adminDataTable').empty();
-                $('#adminDataTable').append(headerData).append(detailData);
-
+                $("#adminDataTable").empty();
+                $("#adminDataTable").append(headerData).append(detailData);
+                //changeValue("ID", "id");
                 $("#queryConditionForm")[0].reset();
             }
 
