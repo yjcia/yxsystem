@@ -205,6 +205,117 @@ exports.deleteBatchByCondition = function (filterColumnNames, tablename, conditi
         });
     })
 }
+
+exports.querySumAmountForRevByMonth = function(callback){
+    var querySql = "select  substring(date,6,2) as month , sum(amount) as sumamount from t_charge  " +
+        "where substring(date,1,4) = year(NOW()) and is_void = 0 and type = 0 group by substring(date,6,2) order by date asc;";
+    var lineDataObj = [0,0,0,0,0,0,0,0,0,0,0,0];
+    connection.query(querySql, function (err, results) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            for(var index = 0;index<results.length;index++){
+                var record = results[index];
+                for(var i = 0;i<lineDataObj.length;i++){
+                    if(parseInt(record.month) == i){
+                        lineDataObj[i-1] = record.sumamount;
+                    }
+                }
+
+            }
+            callback(lineDataObj);
+        }
+
+    });
+}
+exports.querySumAmountForCostByMonth = function(callback){
+    var querySql = "select  substring(date,6,2) as month , sum(amount) as sumamount from t_charge  " +
+        "where substring(date,1,4) = year(NOW()) and is_void = 0 and type = 1 group by substring(date,6,2) order by date asc;";
+    var lineDataObj = [0,0,0,0,0,0,0,0,0,0,0,0];
+    connection.query(querySql, function (err, results) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            for(var index = 0;index<results.length;index++){
+                var record = results[index];
+                for(var i = 0;i<lineDataObj.length;i++){
+                    if(parseInt(record.month) == i){
+                        lineDataObj[i-1] = record.sumamount;
+                    }
+                }
+
+            }
+            callback(lineDataObj);
+        }
+
+    });
+};
+
+exports.querySumAmountByTypeYear = function(callback){
+    var querySql = "select  type,sum(amount) as sumamount from t_charge  " +
+        "where substring(date,1,4) = year(NOW()) and is_void = 0  group by type ";
+    var data = new Array();
+    connection.query(querySql, function (err, results) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            for(var index = 0;index<results.length;index++){
+                var record = results[index];
+                data.push(record.sumamount);
+
+            }
+            callback(data);
+        }
+
+    });
+};
+
+exports.querySumAmountByUserYear = function(callback){
+    var querySql = "select username,sum(amount) as sumamount from t_charge ,t_user where t_charge.u_id = t_user.id " +
+        "and is_void = 0 group by u_id ";
+    var data = new Array();
+    connection.query(querySql, function (err, results) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            for(var index = 0;index<results.length;index++){
+                var record = results[index];
+                data.push(record);
+
+            }
+            callback(data);
+        }
+
+    });
+};
+
+exports.querySumAmountByCateYear = function(callback){
+    var querySql = "select charge_cate,sum(amount) as sumamount from t_charge where is_void = 0 " +
+        "group by charge_cate order by charge_cate asc;";
+    var barDataObj = [0,0,0,0,0,0,0];
+    connection.query(querySql, function (err, results) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            for(var index = 0;index<results.length;index++){
+                var record = results[index];
+                for(var i = 0;i<barDataObj.length;i++){
+                    if(parseInt(record.charge_cate) == i){
+                        barDataObj[i-1] = record.sumamount;
+                    }
+                }
+
+            }
+            callback(barDataObj);
+        }
+
+    });
+}
 function splitQueryFilterData(filterData, dateFrom, dateTo, IsFilterDate) {
     var afterSplitData = "";
     if(filterData != undefined){

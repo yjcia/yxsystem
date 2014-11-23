@@ -30,6 +30,11 @@ app.get('/admin', admin.console);
 app.post('/getChargeType', routes.getChargeType);
 app.post('/getUserInForm', routes.getUserInForm);
 
+app.post('/sumAmountByMonth', charts.sumAmountByMonth);
+app.post('/sumAmountByTypeYear', charts.sumAmountByTypeYear);
+app.post('/sumAmountByUserYear', charts.sumAmountByUserYear);
+app.post('/sumAmountByCateYear', charts.sumAmountByCateYear);
+
 app.post('/addCharge',admin.addCharge);
 app.post('/updateCharge',admin.updateCharge);
 app.post('/deleteCharge',admin.deleteCharge);

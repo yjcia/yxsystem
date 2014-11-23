@@ -127,41 +127,21 @@ function updateCharge(){
 
 }
 
-function doSearch() {
-    var queryCondition = $("#selectConditionBtn").val();
-    var queryConditionValue = $("#idSearchCondition").val();
-    if (queryCondition.toString() == "id" && queryCondition != "" && queryConditionValue == "") {
+function adminQueryCharge() {
 
-        queryConditionValue = $("#idForCondition").val();
 
-    } else if (queryCondition == "charge_cate") {
-        queryConditionValue = $("#chargeDescForCondition").val();
-    } else if (queryCondition == "amount") {
-
-        var amountFrom = $("#amountFrom").val();
-        var amountTo = $("#amountTo").val();
-        queryConditionValue = amountFrom + ":" + amountTo;
-    }
-    var dateFrom = $("#dateFrom").val();
-    var dateTo = $("#dateTo").val();
-    var isNeedFilterDate = true;
-    if(dateFrom == "" &&dateTo == ""){
-        isNeedFilterDate = false;
-
-    }
-    //alert(queryConditionValue);
-    //$("#queryConditionForm")[0].reset();
     $.ajax({
-        url: "/searchCharge",
+        url: "/searchChargeForIndex",
         type: "post",
         dataType: "json",
         async: true,
         data: {
-            condition : queryCondition,
-            conditionValue : queryConditionValue,
-            isFilterDate : isNeedFilterDate,
-            dateFrom : dateFrom,
-            dateTo : dateTo
+            userId : $("#searchChargeUserInAdmin").val(),
+            chargeCate : $("#searchChargeDescInAdmin").val(),
+            amountFrom : $("#searchAmountFromInAdmin").val(),
+            amountTo : $("#searchAmountToInAdmin").val(),
+            dateFrom : $("#searchDateFromInAdmin").val(),
+            dateTo : $("#searchDateToInAdmin").val()
         },
         success: function (data) {
             //console.log("data -->" + data);
@@ -198,7 +178,7 @@ function doSearch() {
                 $("#adminDataTable").empty();
                 $("#adminDataTable").append(headerData).append(detailData);
                 //changeValue("ID", "id");
-                $("#queryConditionForm")[0].reset();
+                $("#searchChargeAdminForm")[0].reset();
             }
 
         }
