@@ -6,6 +6,7 @@
     <link href="/bootstrap/dist/css/sidebar.css" rel="stylesheet">
     <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/smalot-bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -19,7 +20,9 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">YX System</a>
+            <a class="navbar-brand" href="#">
+                <span class="glyphicon glyphicon-send"></span>
+            </a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
@@ -52,7 +55,7 @@
                 <button type="button" class="btn btn-info" data-toggle="modal"
                         data-target="#searchChargeModal">Advance</button>
             </form>
-            <table id="dataTable" class="table table-hover table-condensed">
+            <table id="dataTable" class="table table-hover ">
 
             </table>
         </div>
@@ -130,8 +133,77 @@
     </div>
 </div>
 
+<div class="modal fade" id="editerModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title">
+                    Comment
+                </h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
+                    <div class="btn-group">
+                        <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="icon-font"></i><b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        </ul>
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>
+                        <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="icon-repeat"></i></a>
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="icon-bold"></i></a>
+                        <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="icon-italic"></i></a>
+                        <a class="btn" data-edit="strikethrough" title="Strikethrough"><i class="icon-strikethrough"></i></a>
+                        <a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="icon-underline"></i></a>
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i class="icon-list-ul"></i></a>
+                        <a class="btn" data-edit="insertorderedlist" title="Number list"><i class="icon-list-ol"></i></a>
+                        <a class="btn" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="icon-indent-left"></i></a>
+                        <a class="btn" data-edit="indent" title="Indent (Tab)"><i class="icon-indent-right"></i></a>
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="icon-align-left"></i></a>
+                        <a class="btn" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="icon-align-center"></i></a>
+                        <a class="btn" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="icon-align-right"></i></a>
+                        <a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="icon-align-justify"></i></a>
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn" title="Insert picture (or just drag & drop)" id="pictureBtn"><i class="icon-picture"></i></a>
+                        <input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" />
+                    </div>
+                </div>
+                <br/>
+                <input type="hidden" id="editorCid">
+                <input type="hidden" id="editorUid">
+                <div id="editor" style="height:300px;border: 1px dashed #000">
+                    Please Enter&hellip;
+                </div>
+                <br/>
+                <br/>
+                <button type="button" class="btn btn-info" data-dismiss="modal" onclick="submitComment()">
+                    Commit
+                </button>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
 
 <script src="/jquery/dist/jquery.min.js"></script>
+<script src="/jquery/dist/jquery.hotkeys.js"></script>
+<script src="/bootstrap/dist/js/bootstrap-wysiwyg.js"></script>
 <script src="/bootstrap/dist/js/init.js"></script>
 <script src="/smalot-bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script src="/smalot-bootstrap-datetimepicker/js/datetimepicker.js"></script>
@@ -139,6 +211,8 @@
 <script src="/bootstrap/dist/js/sidebar.js"></script>
 <script src="/bootstrap/dist/js/searchCondition.js"></script>
 <script src="/bootstrap/dist/js/userOperation.js"></script>
+
+
 
 </body>
 </html>

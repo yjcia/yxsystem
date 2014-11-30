@@ -2,7 +2,7 @@
  * Created by yanjun on 11/1/14.
  */
 var mysqlUtil = require('../src/util/MysqlUtil');
-
+var moment = require('moment');
 //mysqlUtil.queryAllDataByTable(columnNames,tableName,function(data){
 //    //console.log(data);
 //});
@@ -13,23 +13,23 @@ var mysqlUtil = require('../src/util/MysqlUtil');
 //mysqlUtil.insertDataByTable(columnNames,tableName,columnData,function(data){
 //    //callback(data);
 //});
-var columnNamesCharge = {
-    "tableName": "t_charge",
-    "column": new Array("id", "u_id", "charge_cate", "amount", "type", "date")
-};
-var columnNamesChargeCate = {
-    "tableName": "t_charge_cate",
-    "column": new Array("name")
-};
-var columnNamesUser = {
-    "tableName": "t_user",
-    "column": new Array("username")
-};
-var joinType = "inner join";
-var joinColumns = [{"joinTable": "t_charge:t_charge_cate", "joinColumn": "charge_cate:id"}
-    , {"joinTable": "t_charge:t_user", "joinColumn": "u_id:id"}];
-
-var columnNamesArr = new Array(columnNamesCharge, columnNamesChargeCate, columnNamesUser);
+//var columnNamesCharge = {
+//    "tableName": "t_charge",
+//    "column": new Array("id", "u_id", "charge_cate", "amount", "type", "date")
+//};
+//var columnNamesChargeCate = {
+//    "tableName": "t_charge_cate",
+//    "column": new Array("name")
+//};
+//var columnNamesUser = {
+//    "tableName": "t_user",
+//    "column": new Array("username")
+//};
+//var joinType = "inner join";
+//var joinColumns = [{"joinTable": "t_charge:t_charge_cate", "joinColumn": "charge_cate:id"}
+//    , {"joinTable": "t_charge:t_user", "joinColumn": "u_id:id"}];
+//
+//var columnNamesArr = new Array(columnNamesCharge, columnNamesChargeCate, columnNamesUser);
 //columnNamesArr.push(columnNamesChargeCate);
 //columnNamesArr.push(columnNamesUser);
 //mysqlUtil.queryByJoinSql(columnNamesArr,joinColumns,function(data){
@@ -104,6 +104,9 @@ var columnNamesArr = new Array(columnNamesCharge, columnNamesChargeCate, columnN
 //    console.log(data);
 //})
 
-
+//mysqlUtil.querySumAmountForCostByMonth(function(data){
+//    console.log(data);
+//})
+console.log(moment().format("YYYY-MM-DD HH:mm"));
 
 

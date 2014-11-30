@@ -217,7 +217,7 @@ exports.querySumAmountForRevByMonth = function(callback){
         else {
             for(var index = 0;index<results.length;index++){
                 var record = results[index];
-                for(var i = 0;i<lineDataObj.length;i++){
+                for(var i = 0;i<=lineDataObj.length;i++){
                     if(parseInt(record.month) == i){
                         lineDataObj[i-1] = record.sumamount;
                     }
@@ -229,6 +229,7 @@ exports.querySumAmountForRevByMonth = function(callback){
 
     });
 }
+
 exports.querySumAmountForCostByMonth = function(callback){
     var querySql = "select  substring(date,6,2) as month , sum(amount) as sumamount from t_charge  " +
         "where substring(date,1,4) = year(NOW()) and is_void = 0 and type = 1 group by substring(date,6,2) order by date asc;";
@@ -240,7 +241,7 @@ exports.querySumAmountForCostByMonth = function(callback){
         else {
             for(var index = 0;index<results.length;index++){
                 var record = results[index];
-                for(var i = 0;i<lineDataObj.length;i++){
+                for(var i = 0;i<=lineDataObj.length;i++){
                     if(parseInt(record.month) == i){
                         lineDataObj[i-1] = record.sumamount;
                     }
@@ -312,6 +313,21 @@ exports.querySumAmountByCateYear = function(callback){
 
             }
             callback(barDataObj);
+        }
+
+    });
+};
+
+exports.queryCommentById = function(cid,callback){
+    var querySql = "select a.username,b.text,b.date from t_user a inner join t_comment " +
+        "b on a.id = b.u_id and b.charge_id = "+ cid +" order by b.date desc";
+    connection.query(querySql, function (err, results) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+
+            callback(results);
         }
 
     });

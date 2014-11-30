@@ -51,4 +51,25 @@ function indexQueryCharge(){
 
         }
     });
+};
+
+function submitComment(){
+
+    var commentValue = $("#editor").html().trim();
+    var cid = $("#editorCid").val();
+    var uid = $("#editorUid").val();
+    $.ajax({
+        url: "/submitComment",
+        type: "post",
+        dataType: "json",
+        async: true,
+        data: {
+            insertData:[uid,cid,commentValue]
+        },
+        success: function (data) {
+            //console.log("data -->" + data);
+
+        }
+    });
+
 }

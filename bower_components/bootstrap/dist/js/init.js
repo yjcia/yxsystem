@@ -285,8 +285,11 @@ function initShowData() {
                 "<th>Amount</th>" +
                 "<th>Type</th>" +
                 "<th>Date</th>" +
+                "<th></th>"+
+                "<th></th>"+
                 "</tr>";
             var detailData = "";
+
             for (var i = 0; i < data.length; i++) {
                 var trStyle = data[i].type == 1 ? " class='danger'" : " class='success'";
                 detailData += ("<tr" + trStyle + ">" +
@@ -299,16 +302,118 @@ function initShowData() {
                 "<td id='r_amount'>" + data[i].amount + "</td>" +
                 "<td id='r_type'>" + (data[i].type == 0 ? 'Rev' : 'Cost') + "</td>" +
                 "<td style='display:none;' id='r_typeid'>" + data[i].type + "</td>" +
-                "<td id='r_date'>" + data[i].date + "</td>" + +"</tr>");
+                "<td id='r_date'>" + data[i].date + "</td>" +
+                "<td id='lineDetail'>" +
+                    "<span id= 'lineDetailSpan' onclick = 'showLineDetail(this)' style= 'cursor:pointer' " +
+                    "class='glyphicon glyphicon-chevron-down'></span>" +
+                "</td>"+
+                "<td id='editCommont'>" +
+                //"<button type='button' class='btn btn-info' data-toggle='modal' id= 'editCommontBtn' " +
+                //"data-target='#editerModal' </button></td>"+
+                "<span class='glyphicon glyphicon-comment' style = 'cursor: pointer' onclick='showCommentWindow(this)'></span></td>"+
+                "<tr id = '" + ("extLine_"+ data[i].id) +"' style='display:none;'>" +
+                "<td colspan='8' style='height: 100px'><div id="+"extDiv_" + data[i].id +">" +
+                "</div></td></tr>");
+
+
+
             }
             //console.log(liData);
             $('#dataTable').append(headerData).append(detailData);
 
         }
     })
+};
+function showCommentWindow(obj){
+    $('#editerModal').modal('show');
+    var currentLine = $(obj).parent().parent();
+    var currentCid = currentLine.find("#r_id").text();
+    var currentUid = currentLine.find("#r_uid").text();
+    $('#editorCid').val(currentCid);
+    $('#editorUid').val(currentUid);
+
 }
+function showLineDetail(obj){
+    controlExtLine(obj,0);
+};
+
+function editDetailCommont(obj){
+    //controlExtLine(obj,1);
+
+};
+
+function controlExtLine(obj,isEdit){
+    //alert(isEdit == 1);
+    var currentLine = $(obj).parent().parent();
+    var currentRid = currentLine.find("#r_id").text();
+    var extLine = $(obj).parent().parent().parent().find(("#extLine_"+currentRid));
+    var extDiv =  extLine.find("#extDiv_"+currentRid);
+    var upOrDown = currentLine.find("#lineDetail").find("#lineDetailSpan").attr("class");
+    var lineDetailSpan = currentLine.find("#lineDetail").find("#lineDetailSpan");
+    if(upOrDown == "glyphicon glyphicon-chevron-down"){
+        lineDetailSpan.attr("class","glyphicon glyphicon-chevron-up");
+        extLine.attr("style","display:true;");
+        extDiv.attr("style","height:100px;overflow:auto");
+        //style = 'position:relative ; float:left ; overflow:auto'
+        //extDiv.append("<span class='glyphicon glyphicon-user'></span> : ");
+
+        $.ajax({
+            url:"/getCommentById",
+            type:"post",
+            data:{
+                cid:currentRid
+            },
+            success:function(data){
+                var optionData = "";
+                for(var i=0;i<data.length;i++){
+                    extDiv.append("<span class='glyphicon glyphicon-user'></span> ")
+                        .append(data[i].username)
+                        .append(" : ")
+                        .append(data[i].text)
+                        .append("<br/>")
+
+                }
+
+            }
+        })
+
+    }
+    else{
+        lineDetailSpan.attr("class","glyphicon glyphicon-chevron-down");
+        extLine.attr("style","display:none;");
+        extLine.empty();
+        extLine.append("<td colspan='8' style='height: 100px'><div id="+"extDiv_" + currentRid +">" +
+        "</div></td>");
+    }
+};
+
+function initToolbarBootstrapBindings() {
+        var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black'],
+            fontTarget = $('[title=Font]').siblings('.dropdown-menu');
+        $.each(fonts, function (idx, fontName) {
+            fontTarget.append($('<li><a data-edit="fontName ' + fontName +'" style="font-family:\''+ fontName +'\'">'+
+            fontName + '</a></li>'));
+        });
+        $('a[title]').tooltip({container:'body'});
+        $('.dropdown-menu input').click(function() {return false;})
+            .change(function () {$(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle');})
+            .keydown('esc', function () {this.value='';$(this).change();});
+
+        $('[data-role=magic-overlay]').each(function () {
+            var overlay = $(this), target = $(overlay.data('target'));
+            overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).
+                width(target.outerWidth()).height(target.outerHeight());
+        });
+
+
+
+    $('#editor').wysiwyg();
+    //window.prettyPrint && prettyPrint();
+};
+
 
 $(document).ready(function(){
+
     bindOnclickEvent();
     initAdminData();
     initShowData();
@@ -317,4 +422,5 @@ $(document).ready(function(){
     initChargeTypeInForm();
     initDoughnutData();
     initLineData();
+    initToolbarBootstrapBindings();
 });

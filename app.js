@@ -9,7 +9,8 @@ var http = require('http');
 var path = require('path');
 var charts = require('./routes/chart.js');
 var admin = require('./routes/admin.js');
-var bodyParser = require('body-parser')
+var user = require('./routes/user.js');
+var bodyParser = require('body-parser');
 var app = express();
 
 // all environments
@@ -41,6 +42,9 @@ app.post('/deleteCharge',admin.deleteCharge);
 app.post('/batchDeleteCharge',admin.batchDeleteCharge);
 app.post('/getAllChargeInfo',admin.getAllCharges);
 app.post('/searchCharge',admin.getQueryCharges);
+
+app.post('/submitComment',user.doComment);
+app.post('/getCommentById',user.getComment);
 
 
 //app.post('/test',function(req,res){
