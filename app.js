@@ -11,6 +11,9 @@ var charts = require('./routes/chart.js');
 var admin = require('./routes/admin.js');
 var user = require('./routes/user.js');
 var bodyParser = require('body-parser');
+var fs = require('fs');
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
 var app = express();
 
 // all environments
@@ -19,6 +22,9 @@ app.set('views', __dirname + '/views/pages');
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'bower_components')));
 app.use(bodyParser.urlencoded({ extended: false }));
+//app.use(bodyParser({keepExtension:true,uploadDir:'./public/import'}));
+app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + "/public/export"));
 
 
 // all Route
@@ -46,6 +52,28 @@ app.post('/searchCharge',admin.getQueryCharges);
 app.post('/submitComment',user.doComment);
 app.post('/getCommentById',user.getComment);
 
+app.post('/batchExportCharge', admin.exportCharges);
+
+app.get('/download', function (req, res) {
+  //console.log(req.query.file);
+  //res.download("public/export/"+ req.query.file);
+  res.download(req.query.file);
+});
+
+
+//app.post('/uploadCharge', multipartMiddleware, function(req, res) {
+//
+//  //console.log(req.files.uploadChargeFile.path);
+//  //var tmpFile = req.files.uploadChargeFile.path;
+//  //fs.readFile(tmpFile,"utf-8",function(err,data){
+//  //  console.log(data.split("\n")[0]);
+//  //  fs.unlink(tmpFile,function(err){
+//  //
+//  //  });
+//  //  res.redirect("/admin");
+//  //})
+//});
+app.post('/uploadCharge', multipartMiddleware, admin.importCharge);
 
 //app.post('/test',function(req,res){
 //  console.log("---");

@@ -32,5 +32,5 @@ exports.sumAmountByCateYear = function(callback){
     mysqlUtil.querySumAmountByCateYear(function(data){
         callback(data);
     })
-}
+};
 

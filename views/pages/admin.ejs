@@ -27,7 +27,7 @@
                 <li><a href="/">OverView</a></li>
                 <li><a href="chart">Chart</a></li>
                 <li class="active"><a href="admin">Admin</a></li>
-                <li><a href="contact">Contact</a></li>
+                <li><a href="download">Download</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>
@@ -48,8 +48,10 @@
 
                         <button type="button" class="btn btn-default"
                                 data-toggle="modal" data-target="#addChargeModal" onclick="resetAddForm()">Add</button>
-                        <button type="button" class="btn btn-default">Import</button>
-                        <button type="button" class="btn btn-default">Export</button>
+                        <button type="button" class="btn btn-default" data-toggle="modal"
+                                data-target="#adminImportChargeModal">Import
+                        </button>
+                        <button type="button" class="btn btn-default" onclick="batchExport()">Export</button>
                         <button type="button" class="btn btn-danger" onclick="batchDelete()">Batch Remove</button>
                         <button type="button" class="btn btn-info" data-toggle="modal"
                                 data-target="#adminSearchChargeModal">Search</button>
@@ -260,6 +262,42 @@
 
                     <button type="button" class="btn btn-info" data-dismiss="modal" onclick="adminQueryCharge()">
                         Search
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="adminImportChargeModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Import Charge
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" method="post" id="importChargeAdminForm" enctype="multipart/form-data"
+                      action="/uploadCharge">
+                    <div class="form-group">
+
+                        <div id="importFile">
+                            <input id="file" name="uploadChargeFile" type="file"/>
+                        </div>
+                    </div>
+
+                    <input type="submit" class="btn btn-info" value="Import">
+
+                    </input>
+                    <button type="reset" class="btn btn-info">
+                        Cancel
                     </button>
                 </form>
 

@@ -94,8 +94,39 @@ function batchDelete(){
 
         }
     });
+}
+
+function batchExport() {
+    var selectIds = "";
+    $("#adminDataTable tr").each(function (index) {
+        if (index != 0 && $(this).find("#r_select").find("#selectCharge")[0].checked) {
+            var id = $(this).find("#r_id").text();
+            selectIds += (id + ",");
+            //$(this).remove();
+        }
+
+    });
+    if (selectIds != "") {
+        $.ajax({
+            url: "/batchExportCharge",
+            type: "post",
+            dataType: "json",
+
+            data: {
+                conditionData: selectIds
+            },
+            success: function (data) {
+                window.location.href = "/download?file=" + data;
+
+            }
+        });
+    }
+}
+
+function importCharge() {
 
 }
+
 function updateCharge(){
     $.ajax({
         url:"/updateCharge",

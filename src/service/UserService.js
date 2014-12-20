@@ -12,4 +12,4 @@ exports.getCommentById = function(columnData,callback){
     mysqlUtil.queryCommentById(columnData,function(data){
         callback(data);
     });
-}
+};

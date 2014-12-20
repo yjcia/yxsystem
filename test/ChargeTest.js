@@ -2,7 +2,8 @@
  * Created by yanjun on 11/1/14.
  */
 var mysqlUtil = require('../src/util/MysqlUtil');
-var moment = require('moment');
+var moment = require('moment')
+var chargeService = require('../src/service/ChargeService');
 //mysqlUtil.queryAllDataByTable(columnNames,tableName,function(data){
 //    //console.log(data);
 //});
@@ -107,6 +108,16 @@ var moment = require('moment');
 //mysqlUtil.querySumAmountForCostByMonth(function(data){
 //    console.log(data);
 //})
-console.log(moment().format("YYYY-MM-DD HH:mm"));
+//console.log(moment().format("YYYY-MM-DD HH:mm"));
+var fs = require("fs");
+chargeService.exportChargesByIds([19, 18], function (chargesInfo) {
+    //res.json(chargesInfo);
+    var currentTime = moment().format("YYYY-MM-DD_HHmm");
+    var content = "";
+    for (var i in chargesInfo) {
+        content += (chargesInfo[i].u_id + " " + chargesInfo[i].amount + " " + chargesInfo[i].date + "\n");
+    }
+    fs.writeFileSync("public/export/" + currentTime + ".txt", content);
+});
 
 

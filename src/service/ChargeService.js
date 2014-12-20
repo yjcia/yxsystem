@@ -8,7 +8,7 @@ exports.queryAllChargeType = function(callback) {
     mysqlUtil.queryAllDataByTable(columnNames,tableName,function(data){
         callback(data);
     });
-}
+};
 
 exports.queryUserForAddCharge = function(callback){
     var columnNames = new Array("id","username");
@@ -16,15 +16,16 @@ exports.queryUserForAddCharge = function(callback){
     mysqlUtil.queryAllDataByTable(columnNames,tableName,function(data){
         callback(data);
     });
-}
+};
 
 exports.addCharge = function(columnData,callback){
     var columnNames = new Array("u_id","charge_cate","amount","type","date");
     var tableName = "t_charge";
+    console.log("insert ->" + columnData);
     mysqlUtil.insertDataByTable(columnNames,tableName,columnData,function(data){
         callback(data);
     });
-}
+};
 
 exports.updateCharge = function(columnData,conditionData,callback){
     var columnNames = new Array("u_id","charge_cate","amount","type","date");
@@ -33,7 +34,7 @@ exports.updateCharge = function(columnData,conditionData,callback){
     mysqlUtil.updateByCondition(columnNames,filterColumnNames,tableName,columnData,conditionData,function(data){
         callback(data);
     });
-}
+};
 
 exports.deleteCharge = function(conditionData,callback){
     var filterColumnNames = new Array("id");
@@ -41,7 +42,7 @@ exports.deleteCharge = function(conditionData,callback){
     mysqlUtil.deleteByCondition(filterColumnNames,tableName,conditionData,function(data){
         callback(data);
     });
-}
+};
 
 exports.batchDeleteCharge = function(conditionData,callback){
     var filterColumnNames = new Array("id");
@@ -49,7 +50,7 @@ exports.batchDeleteCharge = function(conditionData,callback){
     mysqlUtil.deleteBatchByCondition(filterColumnNames,tableName,conditionData,function(data){
         callback(data);
     });
-}
+};
 
 exports.queryAllCharges = function(callback){
     var columnNamesCharge = {
@@ -67,7 +68,7 @@ exports.queryAllCharges = function(callback){
     mysqlUtil.queryByJoinSql(columnNamesArr, joinColumns, function (data) {
         callback(data);
     });
-}
+};
 
 exports.queryChargesByCondition = function (filterColumnNames, filterData,dateFrom,dateTo,IsFilterDate, callback) {
     var columnNamesCharge = {
@@ -88,7 +89,7 @@ exports.queryChargesByCondition = function (filterColumnNames, filterData,dateFr
         dateFrom,dateTo,IsFilterDate,function (data) {
         callback(data);
     });
-}
+};
 
 exports.queryIndexChargesByCondition = function(queryParamObj,callback){
     var columnNamesCharge = {
@@ -108,4 +109,21 @@ exports.queryIndexChargesByCondition = function(queryParamObj,callback){
     mysqlUtil.queryChargesWithConditionForIndex(columnNamesArr, joinColumns,queryParamObj, tableName,function (data) {
             callback(data);
         });
+};
+
+exports.exportChargesByIds = function (selectIds, callback) {
+    mysqlUtil.queryChargesByIds(selectIds, function (data) {
+        callback(data);
+    });
+
+};
+
+exports.uploadCharge = function (fileData, callback) {
+    var columnNames = new Array("u_id", "amount", "type", "date", "charge_cate");
+    var tableName = "t_charge";
+    var chargeData = fileData.split(" ");
+    console.log("upload -->" + chargeData);
+    mysqlUtil.insertDataByTable(columnNames, tableName, chargeData, function (data) {
+        callback(data);
+    });
 }

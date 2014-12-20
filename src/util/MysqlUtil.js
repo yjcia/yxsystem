@@ -331,7 +331,25 @@ exports.queryCommentById = function(cid,callback){
         }
 
     });
-}
+};
+
+exports.queryChargesByIds = function (selectIds, callback) {
+
+    var querySql = "select * from t_charge where is_void =0 and id in (" +
+        selectIds.substring(0, selectIds.length - 1) + ")";
+    console.log(querySql);
+    connection.query(querySql, function (err, results) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            //console.log(results);
+            callback(results);
+        }
+
+    });
+};
+
 function splitQueryFilterData(filterData, dateFrom, dateTo, IsFilterDate) {
     var afterSplitData = "";
     if(filterData != undefined){
@@ -355,6 +373,7 @@ function splitQueryFilterData(filterData, dateFrom, dateTo, IsFilterDate) {
     return afterSplitData;
 
 }
+
 function splitQueryFilterColumn(tablename, filterColumnNamesArr, filterData, dateFrom, dateTo, IsFilterDate) {
     var paraStr = "";
     var filterColumnName = filterColumnNamesArr;
@@ -482,6 +501,7 @@ function splitQueryParamObj(queryParamObj){
     return queryConditionData;
 
 }
+
 function generateJoinSqlPart(columnNamesArr, joinColumns) {
     var allColumnPart = "";
     var allJoinPart = "";
