@@ -96,6 +96,20 @@ function batchDelete(){
     });
 }
 
+function batchTransfer() {
+    var selectIds = new Array();
+    $("#adminDataTable tr").each(function (index) {
+        if (index != 0 && $(this).find("#r_select").find("#selectCharge")[0].checked) {
+            var id = $(this).find("#r_id").text();
+            selectIds.push(id);
+            $(this).remove();
+        }
+
+    });
+
+
+}
+
 function batchExport() {
     var selectIds = "";
     $("#adminDataTable tr").each(function (index) {
