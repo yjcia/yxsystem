@@ -60,15 +60,17 @@ function initDoughnutData(){
         type:"post",
         data:{},
         success:function(data){
+            var revData = (data[0] == null ? 0 : data[0]);
+            var costData = (data[1] == null ? 0 : data[1]);
             var revCostData = [
                 {
-                    value: data[0],
+                    value: revData,
                     color:"#F7464A",
                     highlight: "#FF5A5E",
                     label: "Revenue"
                 },
                 {
-                    value: data[1],
+                    value: costData,
                     color: "#46BFBD",
                     highlight: "#5AD3D1",
                     label: "Cost"
@@ -86,15 +88,17 @@ function initDoughnutData(){
         type:"post",
         data:{},
         success:function(data){
+            var revData = (data[0].sumamount == null ? 0 : data[0].sumamount);
+            var costData = (data[1].sumamount == null ? 0 : data[1].sumamount);
             var revCostData = [
                 {
-                    value: data[0].sumamount,
+                    value: revData,
                     color:"#F7464A",
                     highlight: "#FF5A5E",
                     label: data[0].username
                 },
                 {
-                    value: data[1].sumamount,
+                    value:costData,
                     color: "#46BFBD",
                     highlight: "#5AD3D1",
                     label: data[1].username

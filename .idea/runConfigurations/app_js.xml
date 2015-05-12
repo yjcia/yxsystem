@@ -1,7 +1,9 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="app.js" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="$PROJECT_DIR$/../../node-v0.10.32-linux-x64/bin/node" path-to-js-file="app.js" node-parameters="$PROJECT_DIR$/../../node-v0.10.32-linux-x64/lib/node_modules/supervisor/lib/cli-wrapper.js --exec /home/yanjun/nodejs/node-v0.10.32-linux-x64/bin/node --no-restart-on exit" working-dir="$PROJECT_DIR$">
+  <configuration default="false" name="app.js" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="J:/NodeJS/node" path-to-js-file="app.js" node-parameters="J:/NodeJS/node_modules/supervisor/lib/cli-wrapper.js --exec J:/NodeJS/node --no-restart-on exit" working-dir="$PROJECT_DIR$">
+    <RunnerSettings RunnerId="Basic" />
     <RunnerSettings RunnerId="NodeJS.debug" />
     <RunnerSettings RunnerId="debuggableProgram" />
+    <ConfigurationWrapper RunnerId="Basic" />
     <ConfigurationWrapper RunnerId="NodeJS.debug" />
     <ConfigurationWrapper RunnerId="debuggableProgram" />
     <method />

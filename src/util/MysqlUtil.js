@@ -288,6 +288,7 @@ exports.querySumAmountByUserYear = function(callback){
                 data.push(record);
 
             }
+            console.log(data);
             callback(data);
         }
 
@@ -335,7 +336,7 @@ exports.queryCommentById = function(cid,callback){
 
 exports.queryChargesByIds = function (selectIds, callback) {
 
-    var querySql = "select * from t_charge where is_void =0 and id in (" +
+    var querySql = "select * from t_charge where is_void = 0 and id in (" +
         selectIds.substring(0, selectIds.length - 1) + ")";
     console.log(querySql);
     connection.query(querySql, function (err, results) {
